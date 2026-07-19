@@ -1,0 +1,93 @@
+@import 'tailwindcss';
+
+/* Class-based dark mode: the theme store toggles `.dark` on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Palette: a cool slate ground with a single warm accent (ochre), taken from
+ * the printed asset tags stuck to real hardware. Ochre is reserved for brand
+ * and primary actions only -- which is why "maintenance" status is violet
+ * rather than the usual amber, so no status can be mistaken for the accent.
+ */
+:root {
+  --canvas: #f6f7f9;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --border: #e2e6ec;
+  --content: #151f2a;
+  --content-muted: #5a6773;
+  --accent: #b87514;
+  --accent-content: #ffffff;
+
+  --status-available: #2f855a;
+  --status-assigned: #2563a8;
+  --status-maintenance: #6d4aad;
+  --status-retired: #6b7684;
+  --status-danger: #c0392f;
+}
+
+.dark {
+  --canvas: #0e1319;
+  --surface: #161d25;
+  --surface-raised: #1d252f;
+  --border: #29333d;
+  --content: #e6ebf0;
+  --content-muted: #94a2af;
+  --accent: #db9a2e;
+  --accent-content: #1a1204;
+
+  --status-available: #4caf80;
+  --status-assigned: #5b9bdd;
+  --status-maintenance: #a084e0;
+  --status-retired: #8b97a4;
+  --status-danger: #e07168;
+}
+
+/* `inline` so the generated utilities point at the vars above and flip with .dark */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-border: var(--border);
+  --color-content: var(--content);
+  --color-content-muted: var(--content-muted);
+  --color-accent: var(--accent);
+  --color-accent-content: var(--accent-content);
+
+  --color-available: var(--status-available);
+  --color-assigned: var(--status-assigned);
+  --color-maintenance: var(--status-maintenance);
+  --color-retired: var(--status-retired);
+  --color-danger: var(--status-danger);
+
+  --font-display: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-canvas text-content font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tight;
+  }
+
+  /* Keyboard focus stays visible everywhere; components must not remove it. */
+  :focus-visible {
+    @apply outline-accent outline-2 outline-offset-2;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
