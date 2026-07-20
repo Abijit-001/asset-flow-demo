@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { STORAGE_KEYS } from '@/constants'
+import { safeStorage } from '@/lib/storage'
 
 export type Theme = 'light' | 'dark'
 
@@ -10,7 +11,7 @@ interface ThemeState {
 
 function applyTheme(theme: Theme) {
   document.documentElement.classList.toggle('dark', theme === 'dark')
-  localStorage.setItem(STORAGE_KEYS.theme, theme)
+  safeStorage('local')?.setItem(STORAGE_KEYS.theme, theme)
 }
 
 /**

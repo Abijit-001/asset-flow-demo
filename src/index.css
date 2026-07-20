@@ -57,6 +57,12 @@
 @theme inline {
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
+  /*
+   * Needed by every floating layer (dropdowns, tooltips, popovers). Dropping
+   * this entry silently produces transparent panels -- the class still parses,
+   * it just generates nothing.
+   */
+  --color-surface-raised: var(--surface-raised);
   --color-border: var(--border);
   --color-content: var(--content);
   --color-content-muted: var(--content-muted);

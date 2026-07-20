@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { STORAGE_KEYS } from '@/constants'
+import { safeStorage } from '@/lib/storage'
 import type { Session } from '@/features/auth/types'
 
 /**
@@ -8,12 +9,9 @@ import type { Session } from '@/features/auth/types'
  * session is restored on load.
  */
 function readSession(): Session | null {
-  // Runs at module scope, so it must survive being imported outside a browser.
-  if (typeof localStorage === 'undefined') return null
-
   const raw =
-    localStorage.getItem(STORAGE_KEYS.session) ??
-    sessionStorage.getItem(STORAGE_KEYS.session)
+    safeStorage('local')?.getItem(STORAGE_KEYS.session) ??
+    safeStorage('session')?.getItem(STORAGE_KEYS.session)
   if (!raw) return null
 
   try {
@@ -28,13 +26,15 @@ function readSession(): Session | null {
 
 function writeSession(session: Session, rememberMe: boolean) {
   clearSession()
-  const store = rememberMe ? localStorage : sessionStorage
-  store.setItem(STORAGE_KEYS.session, JSON.stringify(session))
+  safeStorage(rememberMe ? 'local' : 'session')?.setItem(
+    STORAGE_KEYS.session,
+    JSON.stringify(session),
+  )
 }
 
 function clearSession() {
-  localStorage.removeItem(STORAGE_KEYS.session)
-  sessionStorage.removeItem(STORAGE_KEYS.session)
+  safeStorage('local')?.removeItem(STORAGE_KEYS.session)
+  safeStorage('session')?.removeItem(STORAGE_KEYS.session)
 }
 
 interface AuthState {

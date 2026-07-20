@@ -1,52 +1,41 @@
 import { Outlet } from 'react-router'
-import { LogOut } from 'lucide-react'
 import { APP_NAME } from '@/constants'
-import { BrandMark } from '@/components/shared/BrandMark'
-import { ThemeToggle } from '@/components/shared/ThemeToggle'
-import { Button } from '@/components/ui/Button'
-import { useAuth } from '@/features/auth/hooks/use-auth'
-import { useLogout } from '@/features/auth/hooks/use-logout'
+import { Sidebar } from '@/components/shared/Sidebar'
+import { TopBar } from '@/components/shared/TopBar'
 
 /**
- * Shell for every signed-in page. Still thin -- the sidebar, breadcrumbs and
- * top navigation land in Phase 3.
+ * Shell for every signed-in page. No max-width on the content column: with a
+ * sidebar present, centring wastes the horizontal space the asset tables need.
  */
 export function AppLayout() {
-  const { user } = useAuth()
-  const logout = useLogout()
-
   return (
-    <div className="flex min-h-dvh flex-col">
-      <header className="border-border bg-surface sticky top-0 z-10 border-b">
-        <div className="mx-auto flex h-14 w-full max-w-7xl items-center gap-3 px-4 sm:px-6">
-          <BrandMark />
+    <div className="flex min-h-dvh">
+      {/*
+       * First focusable element on the page. Without it, keyboard users tab
+       * through the whole sidebar and every top-bar control on every
+       * navigation (WCAG 2.4.1 Bypass Blocks).
+       */}
+      <a
+        href="#main"
+        className="bg-accent text-accent-content sr-only rounded-md px-3 py-2 text-sm font-medium focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50"
+      >
+        Skip to content
+      </a>
 
-          <div className="ml-auto flex items-center gap-1">
-            {user && (
-              <span className="text-content-muted mr-2 hidden text-sm sm:inline">
-                {user.name}
-                <span className="font-mono text-[0.625rem] tracking-widest uppercase">
-                  {' · '}
-                  {user.role}
-                </span>
-              </span>
-            )}
-            <ThemeToggle />
-            <Button variant="ghost" onClick={logout} className="px-2">
-              <LogOut className="size-4" aria-hidden />
-              <span className="sr-only sm:not-sr-only">Sign out</span>
-            </Button>
-          </div>
-        </div>
-      </header>
+      <Sidebar />
 
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6">
-        <Outlet />
-      </main>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <TopBar />
 
-      <footer className="border-border text-content-muted border-t py-4 text-center font-mono text-xs">
-        {APP_NAME} — internal tooling
-      </footer>
+        {/* tabIndex -1 so the skip link moves focus, not just the viewport. */}
+        <main id="main" tabIndex={-1} className="flex-1 px-4 py-6 sm:px-6">
+          <Outlet />
+        </main>
+
+        <footer className="border-border text-content-muted border-t px-4 py-4 font-mono text-xs sm:px-6">
+          {APP_NAME} — internal tooling
+        </footer>
+      </div>
     </div>
   )
 }

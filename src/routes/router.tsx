@@ -10,6 +10,9 @@ import { ForgotPasswordForm } from '@/features/auth/components/ForgotPasswordFor
 /**
  * Route tree only -- no data loading here. Guards wrap whole branches rather
  * than individual pages.
+ *
+ * `handle.crumb` is read by Breadcrumbs via useMatches(), so a route's label
+ * lives with the route and cannot desync from its path.
  */
 export const router = createBrowserRouter([
   {
@@ -33,15 +36,21 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
+            handle: { crumb: 'Dashboard' },
             Component: () => (
               <div className="text-content-muted font-mono text-sm">
                 Dashboard — built in Phase 5.
               </div>
             ),
           },
-          { path: '*', Component: NotFoundPage },
         ],
       },
     ],
   },
+  /*
+   * Top level, outside both guards. Previously this was a splat child of
+   * AppLayout, which meant a signed-out visitor to a mistyped URL was bounced
+   * to the login form instead of being told the page does not exist.
+   */
+  { path: '*', Component: NotFoundPage },
 ])
