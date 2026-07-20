@@ -4,55 +4,68 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Palette: a cool slate ground with a single warm accent (ochre), taken from
- * the printed asset tags stuck to real hardware. Ochre is reserved for brand
- * and primary actions only -- which is why "maintenance" status is violet
- * rather than the usual amber, so no status can be mistaken for the accent.
+ * Palette: a cool slate ground with a deep blue accent.
+ *
+ * The governing rule is that the accent is reserved for brand and primary
+ * actions, and no status may be mistaken for it. Because the accent is blue,
+ * "assigned" moved off blue to teal; amber, freed from the accent slot, took
+ * "maintenance".
  */
 :root {
-  --canvas: #f6f7f9;
+  --canvas: #f8fafc;
   --surface: #ffffff;
   --surface-raised: #ffffff;
-  --border: #e2e6ec;
-  --content: #151f2a;
-  --content-muted: #5a6773;
-  --accent: #b87514;
+  --border: #e2e8f0;
+  --content: #0f172a;
+  --content-muted: #64748b;
+  --accent: #1e40af;
   --accent-content: #ffffff;
 
   --status-available: #2f855a;
-  --status-assigned: #2563a8;
-  --status-maintenance: #6d4aad;
-  --status-retired: #6b7684;
-  --status-danger: #c0392f;
+  --status-assigned: #0e7490;
+  --status-maintenance: #b45309;
+  --status-retired: #64748b;
+  --status-danger: #dc2626;
+
+  /*
+   * Panel is the login brand field. Deliberately NOT overridden under .dark --
+   * it is dark in both themes, unlike every other token in this file.
+   */
+  --panel: #0b1b3a;
+  --panel-content: #e8eef6;
+  --panel-muted: #9db0cc;
 }
 
 .dark {
-  --canvas: #0e1319;
-  --surface: #161d25;
-  --surface-raised: #1d252f;
-  --border: #29333d;
-  --content: #e6ebf0;
-  --content-muted: #94a2af;
-  --accent: #db9a2e;
-  --accent-content: #1a1204;
+  --canvas: #0b1220;
+  --surface: #131c2b;
+  --surface-raised: #1a2436;
+  --border: #24344b;
+  --content: #e8eef6;
+  --content-muted: #93a3b8;
+  --accent: #4f82e8;
+  --accent-content: #0a1020;
 
   --status-available: #4caf80;
-  --status-assigned: #5b9bdd;
-  --status-maintenance: #a084e0;
+  --status-assigned: #3fb3c4;
+  --status-maintenance: #d9a036;
   --status-retired: #8b97a4;
-  --status-danger: #e07168;
+  --status-danger: #f0736a;
 }
 
 /* `inline` so the generated utilities point at the vars above and flip with .dark */
 @theme inline {
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
-  --color-surface-raised: var(--surface-raised);
   --color-border: var(--border);
   --color-content: var(--content);
   --color-content-muted: var(--content-muted);
   --color-accent: var(--accent);
   --color-accent-content: var(--accent-content);
+
+  --color-panel: var(--panel);
+  --color-panel-content: var(--panel-content);
+  --color-panel-muted: var(--panel-muted);
 
   --color-available: var(--status-available);
   --color-assigned: var(--status-assigned);
@@ -80,6 +93,15 @@
   /* Keyboard focus stays visible everywhere; components must not remove it. */
   :focus-visible {
     @apply outline-accent outline-2 outline-offset-2;
+  }
+
+  /*
+   * Measured: the light-theme accent is 1.95:1 against the panel navy, so the
+   * default ring is invisible there. Anything focusable on the panel uses the
+   * panel's own foreground instead.
+   */
+  [data-panel] :focus-visible {
+    outline-color: var(--panel-content);
   }
 
   @media (prefers-reduced-motion: reduce) {

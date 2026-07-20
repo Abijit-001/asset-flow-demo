@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 .claude
 .env
+CONTEXT.md
+CLAUDE.md
+src/features/auth/auth.test.ts

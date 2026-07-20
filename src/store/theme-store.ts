@@ -16,9 +16,14 @@ function applyTheme(theme: Theme) {
 /**
  * The DOM class is the source of truth on load -- index.html has already set it
  * from localStorage before React mounts, so there is nothing to sync on start.
+ * The typeof guard keeps importing this module safe outside a browser (tests).
  */
 export const useThemeStore = create<ThemeState>((set, get) => ({
-  theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light',
+  theme:
+    typeof document !== 'undefined' &&
+    document.documentElement.classList.contains('dark')
+      ? 'dark'
+      : 'light',
   toggleTheme: () => {
     const next: Theme = get().theme === 'dark' ? 'light' : 'dark'
     applyTheme(next)

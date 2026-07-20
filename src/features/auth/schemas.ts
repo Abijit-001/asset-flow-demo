@@ -1,0 +1,14 @@
+import { z } from 'zod'
+
+export const loginSchema = z.object({
+  email: z.email('Enter a valid work email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+  rememberMe: z.boolean(),
+})
+
+export const forgotPasswordSchema = z.object({
+  email: z.email('Enter a valid work email address'),
+})
+
+export type LoginValues = z.infer<typeof loginSchema>
+export type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>
