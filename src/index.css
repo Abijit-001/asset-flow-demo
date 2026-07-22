@@ -26,6 +26,8 @@
   --status-maintenance: #b45309;
   --status-retired: #64748b;
   --status-danger: #dc2626;
+  /* Foreground for solid danger fills. White works here but not in dark. */
+  --status-danger-content: #ffffff;
 
   /*
    * Panel is the login brand field. Deliberately NOT overridden under .dark --
@@ -51,6 +53,8 @@
   --status-maintenance: #d9a036;
   --status-retired: #8b97a4;
   --status-danger: #f0736a;
+  /* White on this pink measures 2.85:1; this near-black measures 6.70:1. */
+  --status-danger-content: #1f0906;
 }
 
 /* `inline` so the generated utilities point at the vars above and flip with .dark */
@@ -78,6 +82,7 @@
   --color-maintenance: var(--status-maintenance);
   --color-retired: var(--status-retired);
   --color-danger: var(--status-danger);
+  --color-danger-content: var(--status-danger-content);
 
   --font-display: 'Archivo', ui-sans-serif, system-ui, sans-serif;
   --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;

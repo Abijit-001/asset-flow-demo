@@ -1,4 +1,5 @@
 import { PanelLeftClose, PanelLeftOpen } from 'lucide-react'
+import { APP_NAME } from '@/constants'
 import { BrandMark } from '@/components/shared/BrandMark'
 import { SidebarNav } from '@/components/shared/SidebarNav'
 import { useUiStore } from '@/store/ui-store'
@@ -27,8 +28,8 @@ export function Sidebar() {
       >
         {collapsed ? (
           <span className="bg-accent text-accent-content grid size-8 place-items-center rounded-sm">
-            <span className="font-display text-sm font-bold">A</span>
-            <span className="sr-only">AssetFlow</span>
+            <span className="font-display text-sm font-bold">{APP_NAME[0]}</span>
+            <span className="sr-only">{APP_NAME}</span>
           </span>
         ) : (
           <BrandMark />

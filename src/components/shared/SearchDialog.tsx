@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Search, SearchX } from 'lucide-react'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { SearchInput } from '@/components/ui/SearchInput'
+import { APP_NAME } from '@/constants'
 
 /**
  * Shell only -- there is no data to search until Phase 6. The input is real and
@@ -39,22 +41,16 @@ export function SearchDialog() {
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50" />
         <Dialog.Content className="border-border bg-surface fixed top-[15vh] left-1/2 z-50 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 rounded-lg border shadow-xl">
-          <Dialog.Title className="sr-only">Search AssetFlow</Dialog.Title>
+          <Dialog.Title className="sr-only">Search {APP_NAME}</Dialog.Title>
 
-          <div className="border-border flex items-center gap-3 border-b px-4">
-            <Search
-              className="text-content-muted size-4.5 shrink-0"
-              aria-hidden
-            />
-            <input
-              autoFocus
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search assets, employees and licences"
-              aria-label="Search assets, employees and licences"
-              className="h-12 flex-1 bg-transparent text-sm outline-none"
-            />
-          </div>
+          <SearchInput
+            autoFocus
+            value={query}
+            onValueChange={setQuery}
+            label="Search assets, employees and licences"
+            placeholder="Search assets, employees and licences"
+            className="border-border h-12 border-b px-4"
+          />
 
           <EmptyState
             icon={SearchX}

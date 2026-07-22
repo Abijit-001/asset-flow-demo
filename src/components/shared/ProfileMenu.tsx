@@ -7,17 +7,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu'
+import { Avatar } from '@/components/ui/Avatar'
 import { useAuth } from '@/features/auth/hooks/use-auth'
 import { useLogout } from '@/features/auth/hooks/use-logout'
-
-function initials(name: string) {
-  return name
-    .split(' ')
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join('')
-    .toUpperCase()
-}
 
 export function ProfileMenu() {
   const { user } = useAuth()
@@ -29,9 +21,9 @@ export function ProfileMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger
         aria-label={`Account menu for ${user.name}`}
-        className="bg-accent text-accent-content grid size-9 shrink-0 place-items-center rounded-full text-xs font-semibold"
+        className="shrink-0 cursor-pointer rounded-full"
       >
-        {initials(user.name)}
+        <Avatar name={user.name} />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>

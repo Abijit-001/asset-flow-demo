@@ -6,6 +6,7 @@ import { ProtectedRoute, PublicRoute } from '@/routes/guards'
 import { NotFoundPage } from '@/routes/NotFoundPage'
 import { LoginForm } from '@/features/auth/components/LoginForm'
 import { ForgotPasswordForm } from '@/features/auth/components/ForgotPasswordForm'
+import { DashboardPage } from '@/features/dashboard/DashboardPage'
 
 /**
  * Route tree only -- no data loading here. Guards wrap whole branches rather
@@ -37,11 +38,7 @@ export const router = createBrowserRouter([
           {
             index: true,
             handle: { crumb: 'Dashboard' },
-            Component: () => (
-              <div className="text-content-muted font-mono text-sm">
-                Dashboard — built in Phase 5.
-              </div>
-            ),
+            Component: DashboardPage,
           },
         ],
       },

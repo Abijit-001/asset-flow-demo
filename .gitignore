@@ -25,9 +25,11 @@ dist-ssr
 .claude
 .agents
 .env
+.env.example
 CONTEXT.md
 CLAUDE.md
 src/features/auth/auth.test.ts
 skills-lock.json
 src/store/stores.test.ts
 graphify-out
+src/features/assets/assets.test.ts
